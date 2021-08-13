@@ -22,6 +22,7 @@ public class PlayerMove : MonoBehaviour
 
     
     public GameObject Gun1;
+    public GameObject GunArm;
 
     public GameObject CamPos;
     // Start is called before the first frame update
@@ -85,7 +86,7 @@ public class PlayerMove : MonoBehaviour
     void Rotate()
     {
         transform.rotation = Quaternion.Euler(transform.rotation.x, Cam.transform.rotation.eulerAngles.y, transform.rotation.z);
-        CamPos.transform.localRotation = Quaternion.Euler(Cam.transform.rotation.eulerAngles.x, 0, 0);
+        GunArm.transform.localRotation = Quaternion.Euler(Cam.transform.rotation.eulerAngles.x, 0, 0);
         
     }
 }

@@ -11,8 +11,15 @@ public class CameraMove : MonoBehaviour
     public float Rot_X;
     public float Rot_y;
     public float AimSpeed;
+
+    public static CameraMove instance;
+
     // Start is called before the first frame update
 
+    void Awake()
+    {
+        instance = this;
+    }
     void Start()
     {
         AimSpeed = StatManager.instance.AimSpeed;
@@ -21,10 +28,13 @@ public class CameraMove : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        
+    }
+    public void go()
+    {
         ToPlayer();
         Rotate();
     }
-
     void ToPlayer()
     {
         transform.position = PlayerCamPos.transform.position;

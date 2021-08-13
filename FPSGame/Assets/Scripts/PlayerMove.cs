@@ -19,6 +19,11 @@ public class PlayerMove : MonoBehaviour
 
     public float jumpinput;
     public float JumpSpeed;
+
+    
+    public GameObject Gun1;
+
+    public GameObject CamPos;
     // Start is called before the first frame update
     void Awake()
     {
@@ -37,6 +42,9 @@ public class PlayerMove : MonoBehaviour
         Move();
         Gravity();
         Jump();
+        Rotate();
+
+        CameraMove.instance.go();
         Rotate();
     }
 
@@ -77,5 +85,7 @@ public class PlayerMove : MonoBehaviour
     void Rotate()
     {
         transform.rotation = Quaternion.Euler(transform.rotation.x, Cam.transform.rotation.eulerAngles.y, transform.rotation.z);
+        CamPos.transform.localRotation = Quaternion.Euler(Cam.transform.rotation.eulerAngles.x, 0, 0);
+        
     }
 }

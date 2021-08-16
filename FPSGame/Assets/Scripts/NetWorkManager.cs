@@ -23,6 +23,9 @@ public class NetWorkManager : MonoBehaviourPunCallbacks
     void Awake()
     {
         instance = this;
+
+        PhotonNetwork.SendRate = 40;
+        PhotonNetwork.SerializationRate = 40;
     }
     // Update is called once per frame
     void Update()

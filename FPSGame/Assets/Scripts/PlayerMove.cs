@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-public class PlayerMove : MonoBehaviourPunCallbacks
+public class PlayerMove : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PhotonView pv;
 
@@ -30,6 +30,17 @@ public class PlayerMove : MonoBehaviourPunCallbacks
     public GameObject GunArm;
 
     public GameObject CamPos;
+
+
+    public Vector3 APos;
+    public Vector3 BPos;
+
+    public Vector3 curPos;
+    public Vector3 curVelocity;
+    public Vector3 syncPos;
+    public Vector3 syncVelocity;
+
+    public float lag;
     // Start is called before the first frame update
     void Awake()
     {
@@ -55,9 +66,16 @@ public class PlayerMove : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (!pv.IsMine) return;
+        if (!pv.IsMine)
+        {
+            //transform.position = Vector3.Lerp(transform.position, syncPos + syncVelocity * lag, Time.deltaTime * 5);
+            transform.position = syncPos + syncVelocity * lag;
+            return;
+        }
 
         gunShoot.GunShootUpdate();
+
+        APos = transform.position;
 
         Move();
         Gravity();
@@ -66,19 +84,24 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
         CameraMove.instance.go();
         Rotate();
+
+        BPos = transform.position;
+
+        curVelocity = BPos - APos;
+        curPos = transform.position;
     }
 
 
     void Gravity()
     {
-        yspeed -= GravitySpeed;
+        yspeed -= GravitySpeed * Time.deltaTime;
         if (cc.isGrounded)
         {
        
-            yspeed = -GravitySpeed;
+            yspeed = -GravitySpeed ;
         }
         dirmove = new Vector3(0, yspeed, 0);
-        cc.Move(dirmove * Time.deltaTime);
+        cc.Move(dirmove);
     }
     void Move()
     {   
@@ -96,9 +119,9 @@ public class PlayerMove : MonoBehaviourPunCallbacks
         jumpinput = Input.GetAxis("Jump");
         if(cc.isGrounded && jumpinput == 1)
         {
-            yspeed = JumpSpeed;
+            yspeed = JumpSpeed ;
             dirmove = new Vector3(0, yspeed, 0);
-            cc.Move(dirmove * Time.deltaTime);
+            cc.Move(dirmove);
             
         }
     }
@@ -107,5 +130,21 @@ public class PlayerMove : MonoBehaviourPunCallbacks
         transform.rotation = Quaternion.Euler(transform.rotation.x, Cam.transform.rotation.eulerAngles.y, transform.rotation.z);
         GunArm.transform.localRotation = Quaternion.Euler(Cam.transform.rotation.eulerAngles.x, 0, 0);
         
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(curPos);
+            stream.SendNext(curVelocity);
+        }
+        else
+        {
+            stream.Serialize(ref syncPos);
+            stream.Serialize(ref syncVelocity);
+
+            lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime)) * 150;
+        }
     }
 }

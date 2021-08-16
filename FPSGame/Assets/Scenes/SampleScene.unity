@@ -745,7 +745,7 @@ MonoBehaviour:
   GravitySpeed: 0.4
   JumpSpeed: 0.12
   CanGunShoot: 1
-  BulletSpeed: 20
+  BulletSpeed: 100
 --- !u!4 &1206501875
 Transform:
   m_ObjectHideFlags: 0

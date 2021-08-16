@@ -403,10 +403,18 @@ MonoBehaviour:
   Gun1: {fileID: 6996518639311969173}
   GunArm: {fileID: 6998236652567122547}
   CamPos: {fileID: 6998236651791772766}
+  APos: {x: 0, y: 0, z: 0}
+  BPos: {x: 0, y: 0, z: 0}
+  ARot: {x: 0, y: 0, z: 0, w: 0}
+  BRot: {x: 0, y: 0, z: 0, w: 0}
   curPos: {x: 0, y: 0, z: 0}
   curVelocity: {x: 0, y: 0, z: 0}
+  curRot: {x: 0, y: 0, z: 0, w: 0}
+  curArmRot: {x: 0, y: 0, z: 0, w: 0}
   syncPos: {x: 0, y: 0, z: 0}
   syncVelocity: {x: 0, y: 0, z: 0}
+  syncRot: {x: 0, y: 0, z: 0, w: 0}
+  syncArmRot: {x: 0, y: 0, z: 0, w: 0}
   lag: 0
 --- !u!114 &6998236651481174747
 MonoBehaviour:

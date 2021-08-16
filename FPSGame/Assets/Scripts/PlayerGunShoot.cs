@@ -79,7 +79,8 @@ public class PlayerGunShoot : MonoBehaviourPunCallbacks
                 if (ShootDebugTime >= ShootDelay)
                 {
                     ShootDebugTime = 0;
-                    Instantiate(Bullet, GunHole.transform.position, Quaternion.LookRotation(Gundir));
+                    //Instantiate(Bullet, GunHole.transform.position, Quaternion.LookRotation(Gundir));
+                    pv.RPC("PlayerShoot", RpcTarget.All, GunHole.transform.position, Quaternion.LookRotation(Gundir));
                     
                 }
                 
@@ -87,5 +88,11 @@ public class PlayerGunShoot : MonoBehaviourPunCallbacks
             
         }
         ShootDebugTime += Time.deltaTime;
+    }
+
+    [PunRPC]
+    private void PlayerShoot(Vector3 Pos, Quaternion Rot)
+    {
+        Instantiate(Bullet, Pos, Rot);
     }
 }

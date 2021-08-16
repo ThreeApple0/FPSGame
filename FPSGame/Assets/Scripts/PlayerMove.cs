@@ -34,11 +34,18 @@ public class PlayerMove : MonoBehaviourPunCallbacks, IPunObservable
 
     public Vector3 APos;
     public Vector3 BPos;
+    public Quaternion ARot;
+    public Quaternion BRot;
 
     public Vector3 curPos;
     public Vector3 curVelocity;
+    public Quaternion curRot;
+    public Quaternion curArmRot;
+
     public Vector3 syncPos;
     public Vector3 syncVelocity;
+    public Quaternion syncRot;
+    public Quaternion syncArmRot;
 
     public float lag;
     // Start is called before the first frame update
@@ -68,14 +75,18 @@ public class PlayerMove : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (!pv.IsMine)
         {
-            //transform.position = Vector3.Lerp(transform.position, syncPos + syncVelocity * lag, Time.deltaTime * 5);
-            transform.position = syncPos + syncVelocity * lag;
+            transform.position = Vector3.Lerp(transform.position, syncPos + syncVelocity * lag, Time.deltaTime * 15);
+            //transform.rotation = Quaternion.Lerp(transform.rotation, syncRot,Time.deltaTime * 10);
+            transform.rotation = syncRot;
+            //transform.position = syncPos + syncVelocity * lag;
+            GunArm.transform.rotation = syncArmRot;
             return;
         }
 
         gunShoot.GunShootUpdate();
 
         APos = transform.position;
+        ARot = transform.rotation;
 
         Move();
         Gravity();
@@ -86,6 +97,11 @@ public class PlayerMove : MonoBehaviourPunCallbacks, IPunObservable
         Rotate();
 
         BPos = transform.position;
+        BRot = transform.rotation;
+
+        curRot = transform.rotation;
+        curArmRot = GunArm.transform.rotation;
+        
 
         curVelocity = BPos - APos;
         curPos = transform.position;
@@ -138,11 +154,15 @@ public class PlayerMove : MonoBehaviourPunCallbacks, IPunObservable
         {
             stream.SendNext(curPos);
             stream.SendNext(curVelocity);
+            stream.SendNext(curRot);
+            stream.SendNext(curArmRot);
         }
         else
         {
-            stream.Serialize(ref syncPos);
-            stream.Serialize(ref syncVelocity);
+            syncPos = (Vector3)stream.ReceiveNext();
+            syncVelocity = (Vector3)stream.ReceiveNext();
+            syncRot = (Quaternion)stream.ReceiveNext();
+            syncArmRot = (Quaternion)stream.ReceiveNext();
 
             lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime)) * 150;
         }

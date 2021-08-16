@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class PlayerGunShoot : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+public class PlayerGunShoot : MonoBehaviourPunCallbacks
 {
     public GameObject Cam;
     RaycastHit hit1;
@@ -17,6 +18,16 @@ public class PlayerGunShoot : MonoBehaviour
     public GameObject Bullet;
     public float ShootDelay = 0.1f;
     public float ShootDebugTime = 1f;
+
+    public PhotonView pv;
+    private void Awake()
+    {
+        if (pv.IsMine)
+        {
+            Cam = Camera.main.gameObject;
+            HitPoint = GameObject.Find("hitpoint");
+        }
+    }
     void Start()
     {
         
@@ -25,10 +36,15 @@ public class PlayerGunShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+
+        
+    }
+    public void GunShootUpdate()
+    {
         guntarget();
         Shoot();
     }
-
     void guntarget()
     {
         if (Physics.Raycast(Cam.transform.position, Cam.transform.forward, out hit1))

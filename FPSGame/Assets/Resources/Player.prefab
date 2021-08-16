@@ -332,6 +332,8 @@ GameObject:
   - component: {fileID: 6998236651481174745}
   - component: {fileID: 6998236651481174746}
   - component: {fileID: 6998236651481174747}
+  - component: {fileID: -2863723951195069346}
+  - component: {fileID: 1015858034121041450}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -388,7 +390,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c42ca59e7756ff468405751061bbfcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pv: {fileID: -2863723951195069346}
   Cam: {fileID: 0}
+  gunShoot: {fileID: 0}
   hmove: 0
   vmove: 0
   dirmove: {x: 0, y: 0, z: 40.92}
@@ -420,6 +424,63 @@ MonoBehaviour:
   Bullet: {fileID: 1765008993951489567, guid: f478453be479cc747a8e3e0d7d86bfa0, type: 3}
   ShootDelay: 0.1
   ShootDebugTime: 1
+  pv: {fileID: -2863723951195069346}
+--- !u!114 &-2863723951195069346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6998236651481174749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 1015858034121041450}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &1015858034121041450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6998236651481174749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PositionModel:
+    SynchronizeEnabled: 1
+    TeleportEnabled: 1
+    TeleportIfDistanceGreaterThan: 3
+    InterpolateOption: 0
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 1
+    ExtrapolateOption: 1
+    ExtrapolateSpeed: 1
+    ExtrapolateIncludingRoundTripTime: 1
+    ExtrapolateNumberOfStoredPositions: 1
+  m_RotationModel:
+    SynchronizeEnabled: 1
+    InterpolateOption: 1
+    InterpolateRotateTowardsSpeed: 180
+    InterpolateLerpSpeed: 5
+  m_ScaleModel:
+    SynchronizeEnabled: 0
+    InterpolateOption: 0
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 0
 --- !u!1 &6998236651736849476
 GameObject:
   m_ObjectHideFlags: 0

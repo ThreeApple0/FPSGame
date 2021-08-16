@@ -1,14 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class PlayerMove : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+public class PlayerMove : MonoBehaviourPunCallbacks
 {
+    public PhotonView pv;
 
     public GameObject Cam;
 
 
     CharacterController cc;
+
+    public PlayerGunShoot gunShoot;
+
     public float hmove;
     public float vmove;
     public Vector3 dirmove;
@@ -29,6 +34,17 @@ public class PlayerMove : MonoBehaviour
     void Awake()
     {
         cc = GetComponent<CharacterController>();
+        gunShoot = GetComponent<PlayerGunShoot>();
+
+        if (pv.IsMine)
+        {
+            Cam = Camera.main.gameObject;
+            this.gameObject.tag = "MyPlayer";
+        }
+        else
+        {
+            this.gameObject.tag = "ElsePlayer";
+        }
     }
     void Start()
     {
@@ -39,7 +55,10 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (!pv.IsMine) return;
+
+        gunShoot.GunShootUpdate();
+
         Move();
         Gravity();
         Jump();

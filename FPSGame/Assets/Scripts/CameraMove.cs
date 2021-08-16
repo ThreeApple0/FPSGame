@@ -26,9 +26,16 @@ public class CameraMove : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void Update()
     {
-        
+        if (NetWorkManager.instance.isJoined)
+        {
+            if(Player == null)
+            {
+                Player = GameObject.FindGameObjectWithTag("MyPlayer");
+                PlayerCamPos = Player.transform.Find("CamPos").gameObject;
+            }
+        }
     }
     public void go()
     {

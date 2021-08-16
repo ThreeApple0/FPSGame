@@ -53,15 +53,18 @@ public class CameraMove : MonoBehaviour
         MouseX = Input.GetAxis("Mouse X");
         MouseY = Input.GetAxis("Mouse Y");
 
+
+
+
         Rot_X = transform.rotation.eulerAngles.x + MouseY * -AimSpeed;
         Rot_y = transform.rotation.eulerAngles.y + MouseX * AimSpeed;
 
         
-        if (Rot_X > 70f && Rot_X < 100f)
+        if (Rot_X > 70f && Rot_X <= 180f)
         {
             Rot_X = 70f;
         }
-        else if (Rot_X < 290f && Rot_X > 260f)
+        else if (Rot_X < 290f && Rot_X > 180f)
         {
             Rot_X = 290f;
         }
